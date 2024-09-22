@@ -1,0 +1,32 @@
+extends Area2D
+
+signal atualizando_madeiras(madeiras)
+signal picareta_craftada
+
+var machado = false
+var madeiras := 0
+var colidindo_arvore = false
+var coletando_madeira = false
+var colidindo_cabana = false
+
+func _on_árvore_entrando_arvore() -> void:
+	coletando_madeira = true
+
+func _on_árvore_saindo_arvore() -> void:
+	coletando_madeira = false
+	
+func _on_body_entered(body: Node2D) -> void:
+	colidindo_cabana = true
+
+func _on_body_exited(body: Node2D) -> void:
+	colidindo_cabana = false
+
+func _process(delta):
+	if coletando_madeira and Input.is_action_just_pressed("Ação"):
+		madeiras = madeiras + 1
+	if colidindo_cabana and madeiras >= 5 and Input.is_action_just_pressed("Ação") and machado == false:
+		emit_signal("picareta_craftada")
+		print("MACHADO")
+		machado = true
+		madeiras = madeiras - 5
+		emit_signal("atualizando_madeiras", madeiras)
