@@ -1,0 +1,26 @@
+extends Area2D
+
+signal madeira_coletada(madeiras)
+signal entrando_arvore
+signal saindo_arvore
+
+var madeiras := 0
+var coletando_madeira = false
+
+func _on_body_entered(body: Node2D) -> void:
+	if body.name == "Player":
+		coletando_madeira = true
+		emit_signal("entrando_arvore")
+
+func _on_body_exited(body: Node2D) -> void:
+	if body.name == "Player":
+		coletando_madeira = false
+		emit_signal("saindo_arvore",)
+
+func _process(delta):
+	if coletando_madeira and Input.is_action_just_pressed("Ação"):
+		madeiras = madeiras + 1
+		emit_signal("madeira_coletada", madeiras)
+
+func _on_cabana_picareta_craftada() -> void:
+	madeiras = madeiras - 5
