@@ -1,0 +1,7 @@
+extends Control
+
+func _on_árvore_madeira_coletada(madeiras: Variant) -> void:
+	$txt_wood.text = str("Madeiras: ", madeiras)
+
+func _on_cabana_atualizando_madeiras(madeiras: Variant) -> void:
+	$txt_wood.text = str("Madeiras: ", madeiras)
